@@ -4,8 +4,9 @@ import 'item_detail_dialog.dart';
 
 class ItemCard extends StatelessWidget {
   final LoLItem item;
+  final List<LoLItem> allItems;
 
-  const ItemCard({super.key, required this.item});
+  const ItemCard({super.key, required this.item, required this.allItems});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,7 @@ class ItemCard extends StatelessWidget {
         onTap: () {
           showDialog(
             context: context,
-            builder: (context) => ItemDetailDialog(item: item),
+            builder: (context) => ItemDetailDialog(item: item, allItems: allItems),
           );
         },
         borderRadius: BorderRadius.circular(8),

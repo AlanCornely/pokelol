@@ -3,8 +3,9 @@ import '../models/item.dart';
 
 class ItemDetailDialog extends StatelessWidget {
   final LoLItem item;
+  final List<LoLItem> allItems;
 
-  const ItemDetailDialog({super.key, required this.item});
+  const ItemDetailDialog({super.key, required this.item, required this.allItems});
 
   @override
   Widget build(BuildContext context) {
@@ -20,10 +21,10 @@ class ItemDetailDialog extends StatelessWidget {
       child: Container(
         constraints: const BoxConstraints(maxWidth: 500, maxHeight: 600),
         padding: const EdgeInsets.all(24),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
             // Cabeçalho com imagem, nome, custo e status principal
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -243,20 +244,89 @@ class ItemDetailDialog extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               if (item.from.isNotEmpty)
-                Text(
-                  'Construído a partir de: ${item.from.join(', ')}',
-                  style: const TextStyle(
-                    color: Color(0xFFA09B8C),
-                    fontSize: 12,
-                  ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text('Construído a partir de:', style: TextStyle(color: Color(0xFFA09B8C), fontSize: 12)),
+                    const SizedBox(height: 4),
+                    Wrap(
+                      spacing: 8,
+                      children: item.from.map((id) {
+                        final found = allItems.firstWhere((i) => i.id == id, orElse: () => LoLItem(
+                          id: id,
+                          name: id,
+                          description: '',
+                          plaintext: '',
+                          image: '',
+                          totalCost: 0,
+                          sellPrice: 0,
+                          purchasable: false,
+                          tags: [],
+                          stats: {},
+                          from: [],
+                          into: [],
+                        ));
+                        return Column(
+                          children: [
+                            SizedBox(
+                              width: 32,
+                              height: 32,
+                              child: found.image.isNotEmpty
+                                  ? Image.network(found.imageUrl, errorBuilder: (c, e, s) => const Icon(Icons.image_not_supported, size: 16))
+                                  : const Icon(Icons.image_not_supported, size: 16),
+                            ),
+                            SizedBox(
+                              width: 60,
+                              child: Text(found.name, style: const TextStyle(fontSize: 10, color: Color(0xFFC9AA71)), textAlign: TextAlign.center, maxLines: 2, overflow: TextOverflow.ellipsis),
+                            ),
+                          ],
+                        );
+                      }).toList(),
+                    ),
+                  ],
                 ),
               if (item.into.isNotEmpty)
-                Text(
-                  'Usado para construir: ${item.into.join(', ')}',
-                  style: const TextStyle(
-                    color: Color(0xFFA09B8C),
-                    fontSize: 12,
-                  ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 8),
+                    const Text('Usado para construir:', style: TextStyle(color: Color(0xFFA09B8C), fontSize: 12)),
+                    const SizedBox(height: 4),
+                    Wrap(
+                      spacing: 8,
+                      children: item.into.map((id) {
+                        final found = allItems.firstWhere((i) => i.id == id, orElse: () => LoLItem(
+                          id: id,
+                          name: id,
+                          description: '',
+                          plaintext: '',
+                          image: '',
+                          totalCost: 0,
+                          sellPrice: 0,
+                          purchasable: false,
+                          tags: [],
+                          stats: {},
+                          from: [],
+                          into: [],
+                        ));
+                        return Column(
+                          children: [
+                            SizedBox(
+                              width: 32,
+                              height: 32,
+                              child: found.image.isNotEmpty
+                                  ? Image.network(found.imageUrl, errorBuilder: (c, e, s) => const Icon(Icons.image_not_supported, size: 16))
+                                  : const Icon(Icons.image_not_supported, size: 16),
+                            ),
+                            SizedBox(
+                              width: 60,
+                              child: Text(found.name, style: const TextStyle(fontSize: 10, color: Color(0xFFC9AA71)), textAlign: TextAlign.center, maxLines: 2, overflow: TextOverflow.ellipsis),
+                            ),
+                          ],
+                        );
+                      }).toList(),
+                    ),
+                  ],
                 ),
               const SizedBox(height: 16),
             ],

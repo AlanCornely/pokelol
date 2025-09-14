@@ -261,7 +261,7 @@ class _ItemCatalogScreenState extends State<ItemCatalogScreen> {
                           ),
                           itemCount: _filteredItems.length,
                           itemBuilder: (context, index) {
-                            return ItemCard(item: _filteredItems[index]);
+                            return ItemCard(item: _filteredItems[index], allItems: _allItems);
                           },
                         ),
                 ),
