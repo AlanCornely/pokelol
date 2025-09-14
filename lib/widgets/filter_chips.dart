@@ -72,5 +72,6 @@ class FilterChips extends StatelessWidget {
       ],
     );
   }
+}
 // Widget removido. O filtro de categorias agora é feito por dropdown no item_catalog_screen.dart
 

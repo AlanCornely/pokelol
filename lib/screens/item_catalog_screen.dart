@@ -179,7 +179,7 @@ class _ItemCatalogScreenState extends State<ItemCatalogScreen> {
                           DropdownButton<String>(
                             value: _selectedTags.isEmpty ? null : _selectedTags.first,
                             hint: const Text('Selecione uma categoria'),
-                            items: _availableTags.toList()..sort()
+                            items: (_availableTags.toList()..sort())
                               .map((tag) => DropdownMenuItem<String>(
                                     value: tag,
                                     child: Text(tag),
